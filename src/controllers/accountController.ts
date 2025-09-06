@@ -13,6 +13,7 @@ export const setRole = (req: Request, res: Response, next: NextFunction) => {
 export const getEmployeeById = async (req: Request, res: Response, next: NextFunction) => {
     const query_id = req.query.id;
     const result = await service.getEmployeeById(query_id as string)
+    res.json(result)
 };
 
 

@@ -4,6 +4,7 @@ import * as fs from "node:fs";
 import morgan from "morgan";
 import {errorHandler} from "./errorHandler/errorHandler.js";
 import {accountRouter} from "./routes/accountRouter.js";
+import {crewShiftRouter} from "./routes/crewShift.js";
 
 
 export const launchServer = () => {
@@ -19,6 +20,7 @@ export const launchServer = () => {
 
     //==============Routers====================
     app.use('/accounts', accountRouter);
+    app.use('/shift', crewShiftRouter)
 
 
     //===============ErrorHandler==============

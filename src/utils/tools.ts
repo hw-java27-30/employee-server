@@ -6,7 +6,7 @@ import {HttpError} from "../errorHandler/HttpError.js";
 import {FiredEmployeeModel} from "../model/EmployeeMongoModels.js";
 
 
-function generateTabNumber() {
+export function generateTabNumber() {
     return uuidv4();
 }
 
