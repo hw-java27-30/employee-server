@@ -18,6 +18,14 @@ export const UpdateEmployeeDtoSchema = Joi.object({
     lastName: Joi.string().min(1).required(),
 });
 
+export const correctShiftDtoSchema = Joi.object({
+    tab_n_crew: Joi.string().min(1).required(),
+    tab_n_mng: Joi.string().min(1).required(),
+    start: Joi.date().required(),
+    finish: Joi.date().required(),
+    date: Joi.date().required(),
+})
+
 export const ChangeRolesSchema = Joi.array<Roles[]>()
 
 export type ArraySchema = typeof ChangeRolesSchema;

@@ -8,3 +8,12 @@ export type CrewShift = {
     correct: string | null,
     monthHours: number
 }
+
+export type CurrentCrewShift = {
+    shift_id: number,
+    table_num: string,
+    startShift: number,
+    breaks: number,
+}
+
+

@@ -1,9 +1,11 @@
 import {CrewShiftService} from "./CrewShiftService.js";
 import {CrewShiftModel} from "../model/CrewShiftMongoModels.js";
-import {CrewShift} from "../model/CrewShift.js";
+import {CrewShift, CurrentCrewShift} from "../model/CrewShift.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import {generateTabNumber} from "../utils/tools.js";
 import {startShift} from "../controllers/crewShiftController.js";
+import {number} from "joi";
+import {diff} from "node:util";
 
 export class CrewShiftServiceMongoImpl implements CrewShiftService {
     async breakShift(tab_n: string, number: number): Promise<void> {
@@ -25,7 +27,7 @@ export class CrewShiftServiceMongoImpl implements CrewShiftService {
         if (!shift) throw new HttpError(400, 'Shift not started. I cannot finish a new shift.')
         const diff = minutes - shift.startShift;
         shift.finishShift = minutes
-        shift.shiftDuration = shift.shiftDuration + diff
+        shift.shiftDuration = diff + shift.breaks
         await shift.save()
         return Promise.resolve({tab_num: tab_n, time: time});
     }
@@ -44,6 +46,36 @@ export class CrewShiftServiceMongoImpl implements CrewShiftService {
         await newShift.save()
         return Promise.resolve({tab_num: tab_n, time: time});
     }
+
+    async correctShift(tab_n_crew: string, tab_n_mng: string, start: number, finish: number, date: number): Promise<void> {
+        const shift = await CrewShiftModel.findOne({table_num: tab_n_crew, startShift: date})
+        if (!shift) throw new HttpError(400, 'Shift not found')
+        if (shift && shift.finishShift === null) throw new HttpError(400, 'You cannot correct unfinished shift.');
+        shift.startShift = start
+        shift.finishShift = finish
+        shift.shiftDuration = finish - start + shift.breaks
+        shift.correct = tab_n_mng
+        await shift.save()
+
+    }
+
+    async getCurrentShiftStaff(tab_n:string): Promise<CurrentCrewShift> {
+        const shift = await CrewShiftModel.findOne({table_num: tab_n, finishShift: null})
+        let currentShift : CurrentCrewShift;
+        if (!shift) {
+            throw new HttpError(400, 'Shift not found')
+        }
+        currentShift = {
+            shift_id: shift.shift_id,
+            table_num: tab_n,
+            startShift: shift.startShift,
+            breaks: shift.breaks
+        }
+        return currentShift
+
+
+    }
+
 }
 
 export default new CrewShiftServiceMongoImpl()
