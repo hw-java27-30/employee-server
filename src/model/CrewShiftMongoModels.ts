@@ -1,7 +1,6 @@
 import * as mongoose from "mongoose";
 
 export const CrewShiftMongoModels = new mongoose.Schema({
-        shift_id: {type:Number, required:true},
         startShift: {type:Number, min:0, required:true},
         finishShift:{type:Number, default:null},
         table_num: {type:String, required:true},

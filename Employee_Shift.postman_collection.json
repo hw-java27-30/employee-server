@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "86b9f42f-1da1-4bad-b569-ffdbab3eb505",
+		"name": "TimeControl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45450828",
+		"_collection_link": "https://egor-3487208.postman.co/workspace/Java-27-30~7d9c126e-026a-41e9-b9a2-54916c6c4bd6/collection/45450828-86b9f42f-1da1-4bad-b569-ffdbab3eb505?action=share&source=collection_link&creator=45450828"
+	},
+	"item": [
+		{
+			"name": "Accounting",
+			"item": [
+				{
+					"name": "GetAllEmployees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HireEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Ostap\",\r\n    \"lastName\":\"Bender\",\r\n    \"id\":\"123456789\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3555/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FireEmployee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shifting",
+			"item": [
+				{
+					"name": "StartShift",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/shift/start_shift/b4277437-f02c-4217-9022-ea0eb4a20b33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"shift",
+								"start_shift",
+								"b4277437-f02c-4217-9022-ea0eb4a20b33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finishShift",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/shift/finish_shift/b4277437-f02c-4217-9022-ea0eb4a20b33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"shift",
+								"finish_shift",
+								"b4277437-f02c-4217-9022-ea0eb4a20b33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "breakShift",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/shift/break?table_num=b4277437-f02c-4217-9022-ea0eb4a20b33&min=15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"shift",
+								"break"
+							],
+							"query": [
+								{
+									"key": "table_num",
+									"value": "b4277437-f02c-4217-9022-ea0eb4a20b33"
+								},
+								{
+									"key": "min",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "currentShiftGetter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/shift/currentShift/b4277437-f02c-4217-9022-ea0eb4a20b33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"shift",
+								"currentShift",
+								"b4277437-f02c-4217-9022-ea0eb4a20b33"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

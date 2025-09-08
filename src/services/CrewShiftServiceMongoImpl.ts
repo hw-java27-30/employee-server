@@ -39,7 +39,6 @@ export class CrewShiftServiceMongoImpl implements CrewShiftService {
         const time = new Date().toISOString()
         const minutes = Math.floor(new Date(time).getTime() / (1000 * 60))
         const newShift = new CrewShiftModel({
-            shift_number: generateTabNumber(),
             table_num: tab_n,
             startShift: minutes,
         })
@@ -66,9 +65,8 @@ export class CrewShiftServiceMongoImpl implements CrewShiftService {
             throw new HttpError(400, 'Shift not found')
         }
         currentShift = {
-            shift_id: shift.shift_id,
             table_num: tab_n,
-            startShift: shift.startShift,
+            startShift: new Date(shift.startShift * 60 * 1000).toISOString(),
             breaks: shift.breaks
         }
         return currentShift

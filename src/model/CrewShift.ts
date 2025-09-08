@@ -1,5 +1,4 @@
 export type CrewShift = {
-    shift_id: number,
     startShift: number,
     finishShift: number | null,
     table_num: string,
@@ -10,9 +9,8 @@ export type CrewShift = {
 }
 
 export type CurrentCrewShift = {
-    shift_id: number,
     table_num: string,
-    startShift: number,
+    startShift: string,
     breaks: number,
 }
 
