@@ -12,8 +12,8 @@ export interface AppConfig {
         secret:string,
         exp:string|number
     },
-    timeWindowMs:number,
-    requestLimit:number
+    minTimeBetweenShifts: number,
+    logLevel: string
 }
 dotenv.config();
 

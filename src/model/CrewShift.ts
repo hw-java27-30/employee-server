@@ -1,4 +1,5 @@
 export type CrewShift = {
+    _id: number,
     startShift: number,
     finishShift: number | null,
     table_num: string,

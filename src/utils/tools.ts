@@ -4,6 +4,8 @@ import {Roles} from "./Roles.js";
 import {v4 as uuidv4} from 'uuid';
 import {HttpError} from "../errorHandler/HttpError.js";
 import {FiredEmployeeModel} from "../model/EmployeeMongoModels.js";
+import {CrewShift} from "../model/CrewShift.js";
+import ShortUniqueId from "short-unique-id";
 
 
 export function generateTabNumber() {
@@ -29,6 +31,10 @@ export const checkFiredEmployees = async(id:string) => {
         throw new HttpError(409,  "This employee was fired");
 }
 
+export const getMonthHours = (shifts: CrewShift[]) => {
+     return shifts.map(shift => shift.shiftDuration).reduce((acc, item) => item + acc, 0)
+}
+
 export const convertEmployeeToFiredEmployee = (emp:Employee) =>{
     const fired:SavedFiredEmployee = {
         fireDate: new Date().toDateString(),
@@ -43,4 +49,9 @@ export const checkRole = (role:string) => {
     const newRole = Object.values(Roles).find(r => r === role)
     if(!newRole) throw new HttpError(400, "Wrong role!");
     return newRole;
+}
+
+export const generateShiftId  = () => {
+    const uid = new ShortUniqueId({length: 5, dictionary: "number"})
+    return uid.seq()
 }

@@ -1,6 +1,11 @@
 import express from "express";
 import {bodyValidation} from "../validation/bodyValidation.js";
-import {ChangePassDtoSchema, EmployeeDtoSchema, UpdateEmployeeDtoSchema} from "../validation/joiSchemas.js";
+import {
+    ChangePassDtoSchema,
+    ChangeRolesSchema,
+    EmployeeDtoSchema,
+    UpdateEmployeeDtoSchema
+} from "../validation/joiSchemas.js";
 import * as controller from '../controllers/accountController.js';
 export const accountRouter = express.Router();
 
@@ -10,4 +15,6 @@ accountRouter.patch('/', bodyValidation(UpdateEmployeeDtoSchema), controller.upd
 accountRouter.patch('/password', bodyValidation(ChangePassDtoSchema),controller.updatePassword);
 accountRouter.get('/', controller.getAllEmployees);
 accountRouter.get('/employee', controller.getEmployeeById);
-accountRouter.patch('/set_role', controller.setRole);
+accountRouter.patch('/set_role', bodyValidation(ChangeRolesSchema), controller.setRole);
+accountRouter.get('/pages', controller.getAllEmployeesWithPagination);
+accountRouter.get('/tabNum', controller.getEmployeeByTabNum)

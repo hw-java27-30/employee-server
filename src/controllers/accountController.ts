@@ -1,34 +1,48 @@
 import {NextFunction, Response, Request} from "express";
 import {Employee, EmployeeDto, UpdateEmployeeDto} from "../model/Employee.js";
 import {convertEmployeeDtoToEmployee} from "../utils/tools.js";
-import {accountServiceMongo} from "../services/AccountServiceMongoImpl.js";
+import {accountServiceMongo} from "../services/accountingService/AccountServiceMongoImpl.js";
+import {HttpError} from "../errorHandler/HttpError.js";
 
 const service = accountServiceMongo;
 
-export const setRole = (req: Request, res: Response, next: NextFunction) => {
-
+export const setRole = async (req: Request, res: Response) => {
+    const role = req.body.role as string;
+    const id = req.query.id as string;
+    const result = await service.setRole(id, role);
+    res.json(result);
 };
 
+export const getAllEmployeesWithPagination = async (req: Request, res: Response) => {
+    const page = parseInt(req.query.page as string);
+    const limit = parseInt(req.query.limit as string);
+    if (Number.isNaN(page) || Number.isNaN(limit)) throw new HttpError(400, "Wrong pagination params");
+    const result = await service.getAllEmployeesWithPagination(page, limit);
+    res.json({data: result, page, limit});
+}
 
-export const getEmployeeById = async (req: Request, res: Response, next: NextFunction) => {
+
+export const getEmployeeById = async (req: Request, res: Response) => {
     const query_id = req.query.id;
     const result = await service.getEmployeeById(query_id as string)
     res.json(result)
 };
 
 
-export const getAllEmployees = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllEmployees = async (req: Request, res: Response) => {
     const result = await service.getAllEmployees();
     res.json(result)
 };
 
 
-export const updatePassword = (req: Request, res: Response, next: NextFunction) => {
-
+export const updatePassword = async (req: Request, res: Response) => {
+    const {id, newPassword} = req.body;
+    await service.changePassword(id, newPassword);
+    res.status(200).json("password changed");
 };
 
 
-export const updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
+export const updateEmployee = async (req: Request, res: Response) => {
     const body = req.body;
     const query_id = req.query.id;
     const result = await service.updateEmployee(query_id as string, body as UpdateEmployeeDto);
@@ -36,16 +50,22 @@ export const updateEmployee = async (req: Request, res: Response, next: NextFunc
 };
 
 
-export const fireEmployee = async (req: Request, res: Response, next: NextFunction) => {
+export const fireEmployee = async (req: Request, res: Response) => {
     const query_id = req.query.id;
     const result = await service.fireEmployee(query_id as string);
     res.json(result);
 }
 
 
-export const hireEmployee = async (req: Request, res: Response, next: NextFunction) => {
+export const hireEmployee = async (req: Request, res: Response) => {
     const body = req.body;
     const emp: Employee = convertEmployeeDtoToEmployee(body as EmployeeDto);
     const result = await service.hireEmployee(emp);
     res.status(201).json(result);
+}
+
+export const getEmployeeByTabNum = async (req: Request, res: Response) => {
+    const id = req.query.id;
+    const result = await service.getEmployeeByTabNum(id as string)
+    res.json(result)
 }

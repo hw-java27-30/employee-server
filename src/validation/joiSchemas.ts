@@ -26,6 +26,8 @@ export const correctShiftDtoSchema = Joi.object({
     date: Joi.date().required(),
 })
 
-export const ChangeRolesSchema = Joi.array<Roles[]>()
+export const ChangeRolesSchema = Joi.object({
+    role: Joi.string().valid(...Object.values(Roles)).required(),
+})
 
 export type ArraySchema = typeof ChangeRolesSchema;

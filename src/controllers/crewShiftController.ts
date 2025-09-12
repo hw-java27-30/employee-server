@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {EmployeeModel} from '../model/EmployeeMongoModels.js'
-import CrewShiftMongo from '../services/CrewShiftServiceMongoImpl.js'
+import CrewShiftMongo from '../services/ShiftService/CrewShiftServiceMongoImpl.js'
 import Joi from "joi";
 
 const service = CrewShiftMongo

@@ -1,4 +1,4 @@
-import {CurrentCrewShift} from "../model/CrewShift.js";
+import {CurrentCrewShift} from "../../model/CrewShift.js";
 
 export interface CrewShiftService {
     startShift: (tab_n:string) => Promise<{tab_num: string, time: string}>;

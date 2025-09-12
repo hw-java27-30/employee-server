@@ -16,6 +16,6 @@
     "PATCH/accounts/password",
     "PATCH/accounts"
   ],
-  "timeWindowMs": 60000,
-  "requestLimit": 3
+  "minTimeBetweenShifts": 8,
+  "logLevel": "info"
 }

@@ -1,4 +1,4 @@
-import {Employee, EmployeeDto, SavedFiredEmployee, UpdateEmployeeDto} from "../model/Employee.js";
+import {Employee, EmployeeDto, SavedFiredEmployee, UpdateEmployeeDto} from "../../model/Employee.js";
 
 export interface AccountService {
     hireEmployee: (employee: Employee) => Promise<Employee>;
