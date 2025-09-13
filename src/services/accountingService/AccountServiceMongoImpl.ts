@@ -47,10 +47,14 @@ class AccountServiceMongoImpl implements AccountService {
 
     async hireEmployee(employee: Employee): Promise<Employee> {
         const temp = await EmployeeModel.findById(employee._id).exec();
-        if(temp) throw  new HttpError(409, `Employee with id ${employee._id} already exists`);
+        if(temp) {
+            loggerV2.error(`Employee with id ${employee._id} already exists`)
+            throw new HttpError(409, `Employee with id ${employee._id} already exists`)
+        }
         await checkFiredEmployees(employee._id)
         const empDoc = new EmployeeModel(employee);
         await empDoc.save();
+        loggerV2.info(`Employee with id ${employee._id} hired`)
         return employee;
     }
 
@@ -60,7 +64,11 @@ class AccountServiceMongoImpl implements AccountService {
         const updated = await EmployeeModel.findOneAndUpdate({id}, {
             $set: {roles: newRole}
         }, {new: true}).exec();
-        if (!updated) throw new HttpError(500, "Employee updating failed!");
+        if (!updated) {
+            loggerV2.error(`Employee with id ${id} updating failed!`)
+            throw new HttpError(500, "Employee updating failed!")
+        }
+        loggerV2.info(`Employee with id ${id} changed roles successfully`)
         return updated as Employee
 
     }
@@ -68,7 +76,11 @@ class AccountServiceMongoImpl implements AccountService {
     async updateEmployee(empId: string, employee: UpdateEmployeeDto): Promise<Employee> {
         const updated = await EmployeeModel.findByIdAndUpdate(empId, {
             $set: {firstName: employee.firstName, lastName: employee.lastName}}, {new: true}).exec();
-        if (!updated) throw new HttpError(404, "Employee updating failed!");
+        if (!updated) {
+            loggerV2.error("Employee updating failed!")
+            throw new HttpError(404, "Employee updating failed!")
+        }
+        loggerV2.info(`Employee with id ${empId} updated successfully`)
         return updated as Employee
     }
 
@@ -83,7 +95,10 @@ class AccountServiceMongoImpl implements AccountService {
 
     async getEmployeeByTabNum(tabNum: string) {
         const emp = await EmployeeModel.findOne({table_num: tabNum})
-        if (!emp) throw new HttpError(404, `Employee with table number ${tabNum} not found`);
+        if (!emp) {
+            loggerV2.error(`Employee with table number ${tabNum} not found`)
+            throw new HttpError(404, `Employee with table number ${tabNum} not found`)
+        }
         return emp as Employee;
     }
 }
