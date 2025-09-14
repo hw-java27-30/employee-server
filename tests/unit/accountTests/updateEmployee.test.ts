@@ -8,8 +8,8 @@ describe('AccountServiceMongoImpl.updateEmployee', () => {
     const service = accountServiceMongo
 
     const mockUpdateEmployee: UpdateEmployeeDto = {
-        firstName: "Mock",
-        lastName: "Mock",
+        firstName: "MockEmp",
+        lastName: "MOCK",
     }
 
     const mockEmployee = {
@@ -27,4 +27,12 @@ describe('AccountServiceMongoImpl.updateEmployee', () => {
         });
         await expect(service.updateEmployee('123', mockUpdateEmployee)).rejects.toThrow("Employee updating failed!")
     })
+    //================2. Employee has been updated======
+    test("Passed test: Employee updated", async () => {
+        (EmployeeModel.findByIdAndUpdate as jest.Mock).mockReturnValue({
+            exec: jest.fn().mockResolvedValue(mockEmployee)
+        });
+        await expect(service.updateEmployee('123', mockUpdateEmployee)).resolves.toEqual(mockEmployee);
+    })
+
 })
