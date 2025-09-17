@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Time control API",
+    "description": "Web API for small business time controller",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3555",
+      "description": "Development local server"
+    }
+  ],
+  "paths": {
+    "/accounts": {
+      "get": {
+        "summary": "Get all employees list",
+        "description": "Full description will be here",
+        "tags": [
+          "Employees"
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee's array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/employee"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Fire Employee",
+        "description": "Endpoint to fire employee",
+        "tags": ["Employees"],
+        "parameters": [{
+          "name": "id",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "example": "123456789"
+          }
+        }],
+        "responses": {
+          "200" : {
+            "description": "Fired Employee",
+            "content": {
+              "application/json" : {
+                "schema": {
+                  "$ref": "#/components/schemas/employee"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Hire Employee",
+        "description": "Endpoint to hire employee",
+        "tags": ["Employees"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json" : {
+              "schema": {
+                "$ref": "#/components/schemas/employee_dto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hired employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/employee_hired"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "employee": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "123456789"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Snow"
+          },
+          "table_num": {
+            "type": "string",
+            "example": "00001"
+          }
+        }
+      },
+      "employee_dto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "123456789"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Snow"
+          },
+          "password": {
+            "type": "string",
+            "example": "egor00001"
+          }
+        }
+      },
+      "employee_hired": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "123456789"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Snow"
+          },
+          "tab_num": {
+            "type": "string",
+            "example": "egor00001"
+          },
+          "roles": {
+            "type": "string",
+            "example": "admin"
+          },
+          "hash": {
+            "type": "string",
+            "example": "0xfhjdfghkhgfkfggjdf0001"
+          }
+        }
+      }
+    }
+  }
+}

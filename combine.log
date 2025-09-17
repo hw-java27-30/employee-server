@@ -73,3 +73,14 @@
 {"level":"info","message":"2025-09-15T19:34:12.383Z => finishShift finished successfully."}
 {"level":"error","message":"2025-01-01T12:34:56.000Z => finishShift Error"}
 {"level":"info","message":"2025-01-01T12:34:56.000Z => finishShift finished successfully."}
+[2025-09-16T17:58:17.362Z] [31merror[39m : Employee with id 123456789 already exists
+[2025-09-17T15:38:42.019Z] [32minfo[39m : Employee with id 123456789 hired
+[2025-09-17T16:26:34.168Z] [32minfo[39m : Employee with id 123456789 hired
+[2025-09-17T16:27:05.227Z] [31merror[39m : Employee with id 123456789 not found
+[2025-09-17T16:27:08.338Z] [31merror[39m : Employee with id 123456789 not found
+[2025-09-17T16:27:23.852Z] [31merror[39m : Employee with id "123456789" not found
+[2025-09-17T16:27:29.817Z] [31merror[39m : Employee with id "123456789" not found
+[2025-09-17T16:27:31.382Z] [31merror[39m : Employee with id "123456789" not found
+[2025-09-17T16:29:03.523Z] [32minfo[39m : Employee with id 123456789 hired
+[2025-09-17T17:03:14.907Z] [32minfo[39m : Employee with id 123456789 hired
+[2025-09-17T17:22:32.079Z] [32minfo[39m : Employee with id 123456789 hired
