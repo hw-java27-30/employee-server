@@ -19,11 +19,8 @@ OpenAPI/Swagger documentation is available after the server starts.
     - [Run in Development](#run-in-development)
     - [Build & Run in Production](#build--run-in-production)
     - [Test](#test)
-- [Security](#security)
 - [Endpoints](#endpoints)
-    - [Access Matrix (roles)](#access-matrix-roles)
-    - [Authentication](#authentication)
-    - [Accounts](#accounts)
+- [Project Structure](#project-structure)
 - [License](#license)
 
 ---
@@ -33,7 +30,7 @@ OpenAPI/Swagger documentation is available after the server starts.
 `employee-server` is an authentication and account management service with a role-based access model:
 
 - Registration / Login
-- Roles: `user`, `premium`, `admin`, `super`
+- Roles: `user`, `premium`, `admin`
 - Route access restricted by roles and (optionally) resource ownership checks
 - Swagger UI to explore and test the API
 
@@ -113,29 +110,86 @@ JWT_EXP=1h
 ---
 ## Endpoints
 
-### Access Matrix (roles)
 
 #### skipRoutes: 
 ```
-"POST/accounts",
 "POST/accounts/login"
 ```
 
 #### pathRoles:
 ```
-"GET/accounts/reader_id": ["user", "admin", "premium"],
+"POST/accounts/": ["admin"],
+"DELETE/accounts/": ["admin"],
+"PATCH/accounts/": ["user", "premium"],
 "PATCH/accounts/password": ["user", "premium"],
-"DELETE/accounts": ["super"],
-"PATCH/accounts": ["user", "admin", "premium"],
-"PUT/accounts/roles": ["super"]
-```
-#### checkIdRoutes:
-```
-"GET/accounts/reader_id",
-"PATCH/accounts/password",
-"PATCH/accounts"
+"GET/accounts/": ["admin"],
+"GET/accounts/employee": ["user", "premium", "admin"],
+"PATCH/accounts/set_role": ["admin"],
+"GET/accounts/pages": ["admin"],
+"GET/accounts/tabNum": ["user", "premium", "admin"],
+
+
+"GET/shift/start_shift/:table_num": ["user", "premium"],
+"GET/shift/finish_shift/:table_num": ["user", "premium"],
+"GET/shift/break": ["user", "premium"],
+"POST/shift/correctShift": ["admin"],
+"GET/shift/currentShift/:table_num": ["user", "premium", "admin"],
 ```
 
+---
+## Project Structure
+```text
+employee-server/
+├─ app-config/
+│  └─ app-config.json           
+├─ docs/
+│  └─ openapi.json                                   
+├─ src/
+│  ├─ app.ts                   
+│  ├─ server.ts                   
+│  ├─ config/
+│  │  └─ timeControlConfig.ts     
+│  ├─ controllers/
+│  │  ├─ accountController.ts    
+│  │  └─ crewShiftController.ts  
+│  ├─ routes/
+│  │  ├─ accountRouter.ts        
+│  │  └─ crewShift.ts            
+│  ├─ services/
+│  │  ├─ accountingService/
+│  │  │  ├─ AccountService.ts            
+│  │  │  └─ AccountServiceMongoImpl.ts   
+│  │  └─ ShiftService/
+│  │     ├─ CrewShiftService.ts          
+│  │     └─ CrewShiftServiceMongoImpl.ts 
+│  ├─ model/
+│  │  ├─ Employee.ts               
+│  │  ├─ EmployeeMongoModels.ts    
+│  │  ├─ CrewShift.ts              
+│  │  └─ CrewShiftMongoModels.ts   
+│  ├─ utils/
+│  │  ├─ Roles.ts                 
+│  │  └─ tools.ts                 
+│  ├─ errorHandler/
+│  │  ├─ errorHandler.ts          
+│  │  └─ HttpError.ts             
+│  ├─ Logger/
+│  │  └─ winston.ts               
+│  └─ validation/                 
+└─ tests/
+   └─ unit/
+      ├─ accountTests/
+      │  ├─ changePassword.test.ts
+      │  ├─ fireEmployee.test.ts
+      │  ├─ getEmployeeById.test.ts
+      │  ├─ hireEmployee.test.ts
+      │  ├─ setRole.test.ts
+      │  └─ updateEmployee.test.ts
+      └─ shiftTests/
+         ├─ finishShift.test.ts
+         └─ startShift.test.ts
+```
+---
 ## License
 
 
